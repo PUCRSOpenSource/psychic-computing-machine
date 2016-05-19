@@ -24,11 +24,31 @@ datagrama IP (cabeçalhos não são considerados no valor do MTU).
 
 ##Formato de saída
 
-	Pacotes ARP Request: <src_name> box <src_name> : ARP - Who has <dst_IP>? Tell <src_IP>;
-	Pacotes ARP Reply: <src_name> => <dst_name> : ARP - <src_IP> is at <src_MAC>;
-	Pacotes ICMP Echo Request: <src_name> => <dst_name> : ICMP - Echo (ping) request (src=<src_IP> dst=<dst_IP> ttl=<TTL> data=<msg>);
-	Pacotes ICMP Echo Reply: <src_name> => <dst_name> : ICMP - Echo (ping) reply (src=<src_IP> dst=<dst_IP> ttl=<TTL> data=<msg>);
-	Processamento final do ICMP Echo Request/Reply no nó: <dst_name> rbox <dst_name> : Received <msg>;
+ - Pacotes ARP Request
+ 
+ ```
+ <src_name> box <src_name> : ARP - Who has <dst_IP>? Tell <src_IP>;
+  ```
+  
+ - Pacotes ARP Reply
+ 
+ ```
+ <src_name> => <dst_name> : ARP - <src_IP> is at <src_MAC>;
+ ```
+ - Pacotes ICMP Echo Request
+ ```
+ <src_name> => <dst_name> : ICMP - Echo (ping) request (src=<src_IP> dst=<dst_IP> ttl=<TTL> data=<msg>);
+ ```
+ 
+ - Pacotes ICMP Echo Reply
+ ```
+ <src_name> => <dst_name> : ICMP - Echo (ping) reply (src=<src_IP> dst=<dst_IP> ttl=<TTL> data=<msg>);
+ ```
+ - Processamento final do ICMP Echo Request/Reply no nó
+ 
+ ```
+ <dst_name> rbox <dst_name> : Received <msg>;
+ ```
 
 ##Modo de execução do simulador
 
