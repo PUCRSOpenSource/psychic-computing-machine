@@ -19,4 +19,19 @@ describe Node do
 			expect(@node).to be_an_instance_of(Node)
 		end
 	end
+	describe '#mtu' do
+		it 'return the correct name' do
+			expect(@node.name).to eql(@name)
+		end
+	end
+	describe '#gateway' do
+		it 'return the correct gateway' do
+			expect(@node.gateway).to eql(@gateway)
+		end
+	end
+	describe '#interface' do
+		it 'must be an Interface object' do
+			expect(@node.interface).to be_an_instance_of(Interface)
+		end
+	end
 end
