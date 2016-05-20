@@ -77,5 +77,5 @@ apresentados
 
 - O formato de saída é baseado na linguagem MsGenny. Sugere-se
 verificar se a saída está correta através desse
-[site](https://sverweij.github.io/mscgen_js. Usar o cabeçalho)
+[site](https://sverweij.github.io/mscgen_js) Usar o cabeçalho
 *wordwraparcs=true,hscale=2.0;* para facilitar a visualização.
