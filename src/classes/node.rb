@@ -1,4 +1,3 @@
-require './interface.rb'
 class Node
 	attr_reader :name
 	attr_reader :gateway

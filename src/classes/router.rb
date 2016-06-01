@@ -1,5 +1,3 @@
-require './interface.rb'
-
 class Router
 	attr_reader :name
 	attr_reader :num_ports
