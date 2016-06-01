@@ -1,7 +1,7 @@
 require 'rspec'
 require 'faker'
 
-require_relative '../node.rb'
+require_relative '../classes/node.rb'
 
 describe Node do
 	before :each do

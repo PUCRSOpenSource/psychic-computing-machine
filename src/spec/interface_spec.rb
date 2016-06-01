@@ -1,7 +1,7 @@
 require 'rspec'
 require 'faker'
 
-require_relative '../interface.rb'
+require_relative '../classes/interface.rb'
 
 describe Interface do
 	before :each do
