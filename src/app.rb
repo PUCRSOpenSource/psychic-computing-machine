@@ -4,6 +4,7 @@ end
 
 counter = 0
 nodes   = {}
+networks = {}
 routers = {}
 rourter_table = []
 
@@ -36,11 +37,16 @@ File.open ARGV[0], "r" do |file|
 			routers[name] = router
 		when 3 #when reading routertable
 			#puts line.to_s
+			net_addr = line[1]
+			if networks[net_addr].nil?
+				network = Network.new net_addr
+				networks[net_addr] = networks
+			end
 			routers[line[0]].routes.push(line[1,3])
 		end
-
 	end
 	#puts nodes
-	puts routers
+	#puts routers
+	puts networks
 end
 
