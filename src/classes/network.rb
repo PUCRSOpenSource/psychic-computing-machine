@@ -11,15 +11,15 @@ class Network
 		@nodes[node_name] = interface
 	end
 
-	def look_up_node_by_name
+	def search_node_by_name
 		
 	end
 
-	def look_up_node_by_ip
+	def search_node_by_ip
 		
 	end
 
-	def look_up_node_by_mac
+	def search_node_by_mac
 		
 	end
 end
