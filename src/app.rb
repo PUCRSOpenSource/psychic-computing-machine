@@ -36,17 +36,21 @@ File.open ARGV[0], "r" do |file|
 			router   = Router.new(name, ports, interfaces)
 			routers[name] = router
 		when 3 #when reading routertable
-			#puts line.to_s
 			net_addr = line[1]
 			if networks[net_addr].nil?
 				network = Network.new net_addr
-				networks[net_addr] = networks
+				networks[net_addr] = network
 			end
 			routers[line[0]].routes.push(line[1,3])
 		end
 	end
-	#puts nodes
-	#puts routers
+	net_addr = ''
+	nodes.each_pair do |name, node| 
+		net_addr = node.interface.ip.split('.')
+		net_addr[-1] = '0'
+		net_addr = net_addr.join('.')
+		networks[net_addr].add_node name, node.interface
+	end
 	puts networks
 end
 
