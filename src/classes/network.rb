@@ -13,4 +13,13 @@ class Network
 		@interfaces = []
 	end
 
+	def arp_request ip_dst, mac_src, name_src
+		mac = ''
+		interfaces.each do |interface|
+			reply = interface.arp_reply ip_dst, mac_src, name_src
+			mac = reply until reply.nil?
+		end
+		return mac
+	end
+
 end

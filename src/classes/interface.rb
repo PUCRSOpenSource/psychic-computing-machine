@@ -27,6 +27,7 @@ class Interface
 			puts "#{@name} => #{dst_name} : ARP - #{@ip} is at #{@mac};"
 			return @mac
 		end
+		return
 	end
 
 	def icmp_request ip_dst, name_dst, message, ttl
