@@ -43,7 +43,6 @@ File.open ARGV[0], "r" do |file|
 			if networks[net_address].nil?
 				network = Network.new net_address
 				networks[net_address] = network
-				puts "class: #{network_class(net_address)}"
 			end
 		end
 	end

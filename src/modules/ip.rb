@@ -14,4 +14,11 @@ module Ip
 		dec_to_addr net_dec
 	end
 
+	def network_class net_address
+		ip_bin = "%.32b" % addr_to_dec(net_address)
+		return 'A' if ip_bin[0] == '0'
+		return 'B' if ip_bin[1] == '0'
+		return 'C'
+	end
+
 end
