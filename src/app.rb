@@ -30,6 +30,7 @@ File.open ARGV[0], "r" do |file|
 			line.shift(2)
 			ports.times do |x|
 				mac, ip, mtu = line.shift 3
+				puts "#{mac} #{ip} #{mtu}"
 				interface    = Interface.new(mac, ip, mtu)
 				interfaces.push(interface)
 			end
@@ -49,8 +50,14 @@ File.open ARGV[0], "r" do |file|
 		net_addr = node.interface.ip.split('.')
 		net_addr[-1] = '0'
 		net_addr = net_addr.join('.')
-		networks[net_addr].add_node name, node.interface
+		node.network = networks[net_addr]
+		networks[net_addr].add_node(name, node.interface)
 	end
 	puts networks
 end
 
+src = nodes[ARGV[1]]
+dst = nodes[ARGV[2]]
+msg = ARGV[3]
+
+src.send_message(ARGV[2], msg)
