@@ -7,7 +7,7 @@ class Interface
 	attr_accessor :network
 	attr_reader :arp_table
 
-	def initialize(name, mac, ip, mtu)
+	def initialize name, mac, ip, mtu
 		@mac = mac
 		@ip  = ip
 		@mtu = mtu
@@ -29,10 +29,18 @@ class Interface
 		end
 	end
 
-	def icmp_request
+	def icmp_request ip_dst, name_dst, message, ttl
+		puts "#{@name} => #{name_dst} : ICMP - Echo (ping) request (src=#{@ip} dst=#{ip_dst} ttl=#{ttl} data=#{message});"
+		@network.icmp_request ip_dst, name_dst, message, ttl
 	end
 
-	def icmp_reply
+	def icmp_reply ip_dst, name_dst, message, ttl
+		puts "#{@name} => #{name_dst} : ICMP - Echo (ping) reply (src=#{@ip} dst=#{ip_dst} ttl=#{ttl} data=#{message});"
+		@network.icmp_reply ip_dst, name_dst, messate, ttl
+	end
+
+	def icmp_echo message
+		puts "#{@name} rbox #{@name} : Received #{message};"
 	end
 
 end
