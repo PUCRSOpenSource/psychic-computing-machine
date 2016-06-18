@@ -41,10 +41,10 @@ File.open ARGV[0], "r" do |file|
 			route = RouterTableEntry.new(netx_hop, port)
 			routers[name].router_table[net_address] = route
 
-			#if networks[net_addr].nil?
-				#network = Network.new net_addr
-				#networks[net_addr] = network
-			#end
+			if networks[net_address].nil?
+				network = Network.new net_address
+				networks[net_address] = network
+			end
 		end
 	end
 	#net_addr = ''
