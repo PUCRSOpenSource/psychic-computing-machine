@@ -1,7 +1,21 @@
+require_relative 'modules/ip'
 Dir['classes/*.rb'].each do |file|
 	require_relative file
 end
 
+def network_class(net_address)
+	include Ip
+	ip_dec = Ip::addr_to_dec(net_address)
+	ip_bin = "%.32b" % ip_dec
+	start = ip_bin[0,3]
+	if start[0] == '0'
+		return 'A'
+	elsif start[1] == '0'
+		return 'B'
+	else
+		return 'C'
+	end
+end
 counter = 0
 nodes   = {}
 networks = {}
@@ -43,6 +57,7 @@ File.open ARGV[0], "r" do |file|
 			if networks[net_address].nil?
 				network = Network.new net_address
 				networks[net_address] = network
+				puts "class: #{network_class(net_address)}"
 			end
 		end
 	end
