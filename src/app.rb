@@ -5,6 +5,18 @@ Dir['classes/*.rb'].each do |file|
 	require_relative file
 end
 
+def add_to_network(interface, ip, networks)
+	include Ip
+	net_address = dec_to_addr(addr_to_dec(ip) & network_mask(ip))
+	if networks[net_address].nil?
+		net = Network.new net_address
+		net.interfaces.push interface
+		networks[net_address] = net
+	else
+		networks[net_address].interfaces.push interface
+	end
+end
+
 counter    = 0
 networks   = {}
 routers    = {}
@@ -24,15 +36,7 @@ File.open ARGV[0], "r" do |file|
 		when 1 #when reading node
 			name, mac, ip, mtu, gateway = line
 			node = Node.new(name, mac, ip, mtu, gateway)
-			include Ip
-			net_address = dec_to_addr(addr_to_dec(ip) & network_mask(ip))
-			if networks[net_address].nil?
-				net = Network.new net_address
-				net.interfaces.push node
-				networks[net_address] = net
-			else
-				networks[net_address].interfaces.push node
-			end
+			add_to_network(node, ip, networks)
 
 		when 2 #when reading router
 			interfaces = []
@@ -43,6 +47,7 @@ File.open ARGV[0], "r" do |file|
 				mac, ip, mtu = line.shift 3
 				interface    = Interface.new(name, mac, ip, mtu)
 				interfaces.push(interface)
+				add_to_network(interface, ip, networks)
 			end
 			router = Router.new
 			router.interfaces = interfaces
