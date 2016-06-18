@@ -17,9 +17,10 @@ def add_to_network(interface, ip, networks)
 	end
 end
 
-counter    = 0
-networks   = {}
-routers    = {}
+counter   = 0
+networks  = {}
+routers   = {}
+all_nodes = {}
 
 File.open ARGV[0], "r" do |file|
 
@@ -36,6 +37,7 @@ File.open ARGV[0], "r" do |file|
 		when 1 #when reading node
 			name, mac, ip, mtu, gateway = line
 			node = Node.new(name, mac, ip, mtu, gateway)
+			all_nodes[name] = node
 			add_to_network(node, ip, networks)
 
 		when 2 #when reading router
@@ -61,4 +63,11 @@ File.open ARGV[0], "r" do |file|
 		end
 	end
 end
+
+src = ARGV[1]
+dst = ARGV[2]
+msg = ARGV[3]
+
+nm = NetworkManager.new all_nodes, networks
+nm.send_message(src, dst, msg)
 
