@@ -3,6 +3,7 @@ Dir['classes/*.rb'].each do |file|
 end
 
 counter = 0
+interfaces = {}
 nodes   = {}
 networks = {}
 routers = {}
@@ -20,9 +21,8 @@ File.open ARGV[0], "r" do |file|
 
 		case counter
 		when 1 #when reading node
-			interface = Interface.new(line[1], line[2], line[3])
-			node      = Node.new(line[0], line[4], interface)
-			nodes[line[0]] = node
+			name, mac, ip, mtu, gateway = line
+			Node.new(name, mac, ip, mtu, gateway)
 		when 2 #when reading router
 			interfaces = Array.new
 			name  = line[0]
@@ -30,34 +30,30 @@ File.open ARGV[0], "r" do |file|
 			line.shift(2)
 			ports.times do |x|
 				mac, ip, mtu = line.shift 3
-				puts "#{mac} #{ip} #{mtu}"
-				interface    = Interface.new(mac, ip, mtu)
+				interface    = Interface.new(name, mac, ip, mtu)
 				interfaces.push(interface)
 			end
-			router   = Router.new(name, ports, interfaces)
+			router   = Router.new
+			router.interfaces = interfaces
 			routers[name] = router
 		when 3 #when reading routertable
-			net_addr = line[1]
-			if networks[net_addr].nil?
-				network = Network.new net_addr
-				networks[net_addr] = network
-			end
-			routers[line[0]].routes.push(line[1,3])
+			name, net_address, netx_hop, port = line
+			route = RouterTableEntry.new(netx_hop, port)
+			routers[name].router_table[net_address] = route
+
+			#if networks[net_addr].nil?
+				#network = Network.new net_addr
+				#networks[net_addr] = network
+			#end
 		end
 	end
-	net_addr = ''
-	nodes.each_pair do |name, node| 
-		net_addr = node.interface.ip.split('.')
-		net_addr[-1] = '0'
-		net_addr = net_addr.join('.')
-		node.network = networks[net_addr]
-		networks[net_addr].add_node(name, node.interface)
-	end
-	puts networks
+	#net_addr = ''
+	#nodes.each_pair do |name, node| 
+		#net_addr = node.interface.ip.split('.')
+		#net_addr[-1] = '0'
+		#net_addr = net_addr.join('.')
+		#node.network = networks[net_addr]
+		#networks[net_addr].add_node(name, node.interface)
+	#end
+	#puts networks
 end
-
-src = nodes[ARGV[1]]
-dst = nodes[ARGV[2]]
-msg = ARGV[3]
-
-src.send_message(ARGV[2], msg)

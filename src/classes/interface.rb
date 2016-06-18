@@ -5,7 +5,7 @@ class Interface
 	attr_reader :ip
 	attr_reader :name
 
-	def initialize(mac, ip, mtu, name)
+	def initialize(name, mac, ip, mtu)
 		@mac = mac
 		@ip  = ip
 		@mtu = mtu

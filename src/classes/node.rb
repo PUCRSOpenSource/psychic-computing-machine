@@ -1,15 +1,13 @@
-class Node
-	attr_reader :name
+require_relative 'interface'
+
+class Node < Interface
+
 	attr_reader :gateway
 	attr_reader :interface
-	attr_accessor :network
-	def initialize(name, gateway, interface)
-		@name = name
+
+	def initialize(name, mac, ip, mtu, gateway)
+		super(name, mac, ip, mtu)
 		@gateway = gateway
-		@interface = interface
 	end
 
-	def send_message(dest, message)
-		puts "seding to #{dest}: #{message}"
-	end
 end
