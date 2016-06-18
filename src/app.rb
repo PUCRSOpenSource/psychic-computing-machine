@@ -3,7 +3,6 @@ Dir['classes/*.rb'].each do |file|
 end
 
 counter = 0
-interfaces = {}
 nodes   = {}
 networks = {}
 routers = {}
