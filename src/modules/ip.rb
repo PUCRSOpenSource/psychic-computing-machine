@@ -14,11 +14,11 @@ module Ip
 		dec_to_addr net_dec
 	end
 
-	def network_class net_address
+	def network_mask net_address
 		ip_bin = "%.32b" % addr_to_dec(net_address)
-		return 'A' if ip_bin[0] == '0'
-		return 'B' if ip_bin[1] == '0'
-		return 'C'
+		return 0xFF000000 if ip_bin[0] == '0'
+		return 0xFFFF0000 if ip_bin[1] == '0'
+		return 0xFFFFFF00
 	end
 
 end

@@ -1,12 +1,13 @@
+
+require_relative 'modules/ip'
+
 Dir['classes/*.rb'].each do |file|
 	require_relative file
 end
 
-counter = 0
-nodes   = {}
-networks = {}
-routers = {}
-rourter_table = []
+counter    = 0
+networks   = {}
+routers    = {}
 
 File.open ARGV[0], "r" do |file|
 
@@ -19,11 +20,22 @@ File.open ARGV[0], "r" do |file|
 		line = line.chomp.split(',')
 
 		case counter
+
 		when 1 #when reading node
 			name, mac, ip, mtu, gateway = line
-			Node.new(name, mac, ip, mtu, gateway)
+			node = Node.new(name, mac, ip, mtu, gateway)
+			include Ip
+			net_address = dec_to_addr(addr_to_dec(ip) & network_mask(ip))
+			if networks[net_address].nil?
+				net = Network.new net_address
+				net.interfaces.push node
+				networks[net_address] = net
+			else
+				networks[net_address].interfaces.push node
+			end
+
 		when 2 #when reading router
-			interfaces = Array.new
+			interfaces = []
 			name  = line[0]
 			ports = line[1].to_i
 			line.shift(2)
@@ -32,27 +44,16 @@ File.open ARGV[0], "r" do |file|
 				interface    = Interface.new(name, mac, ip, mtu)
 				interfaces.push(interface)
 			end
-			router   = Router.new
+			router = Router.new
 			router.interfaces = interfaces
 			routers[name] = router
+
 		when 3 #when reading routertable
 			name, net_address, netx_hop, port = line
 			route = RouterTableEntry.new(netx_hop, port)
 			routers[name].router_table[net_address] = route
 
-			if networks[net_address].nil?
-				network = Network.new net_address
-				networks[net_address] = network
-			end
 		end
 	end
-	#net_addr = ''
-	#nodes.each_pair do |name, node| 
-		#net_addr = node.interface.ip.split('.')
-		#net_addr[-1] = '0'
-		#net_addr = net_addr.join('.')
-		#node.network = networks[net_addr]
-		#networks[net_addr].add_node(name, node.interface)
-	#end
-	#puts networks
 end
+

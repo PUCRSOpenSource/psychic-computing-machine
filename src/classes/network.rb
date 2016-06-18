@@ -10,8 +10,7 @@ class Network
 
 	def initialize address
 		@address    = address
-		@interfaces = {}
-		@class = network_class(address)
+		@interfaces = []
 	end
 
 end
