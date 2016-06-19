@@ -32,7 +32,7 @@ class Interface
 
 	#def icmp_request ip_dst, name_dst, message, ttl
 	def icmp_request datagram
-		puts "#{@name} => #{datagram.name_dst} : ICMP - Echo (ping) request (src=#{@ip} dst=#{datagram.ip_dst} ttl=#{datagram.ttl} data=#{datagram.message});"
+		puts "#{@name} => #{datagram.name_dst} : ICMP - Echo (ping) request (src=#{@ip} dst=#{datagram.ip_dst} ttl=#{datagram.ttl} data=#{datagram.get_message});"
 		@network.icmp_request datagram
 	end
 

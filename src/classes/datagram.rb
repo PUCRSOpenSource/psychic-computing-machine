@@ -7,6 +7,7 @@ class Datagram
 	attr_reader :message
 	attr_reader :datagram
 	attr_reader :ttl
+	attr_accessor :reply
 
 	def initialize ip_src, ip_dst, name_src, name_dst, msg, datagram=nil
 		@ip_src = ip_src
@@ -15,7 +16,13 @@ class Datagram
 		@name_dst = name_dst
 		@message = msg
 		@datagram = datagram
+		@reply = false
 		@ttl = 8
+	end
+
+	def get_message
+		return @message if @datagram.nil?
+		return @datagram.message
 	end
 
 end
