@@ -30,7 +30,7 @@ class Network
 
 	def icmp_reply datagram
 		interfaces.each do |interface|
-			interface.icmp_reply if datagram.ip == interface.ip
+			interface.icmp_reply datagram if datagram.ip_dst == interface.ip
 		end
 	end
 

@@ -39,14 +39,16 @@ class Interface
 	def icmp_reply datagram
 		next_datagram = nil
 		if datagram.datagram.nil?
-			next_datagram = Datagram.new datagram.dst, datagram.src, datagram.name_dst, datagram.name_src, datagram.message
+			next_datagram = Datagram.new datagram.ip_dst, datagram.ip_src, datagram.name_dst, datagram.name_src, datagram.message
 			next_datagram.reply = true
 			icmp_echo datagram.get_message
 		else
 
 		end
-		puts "#{@name} => #{datagram.name_src} : ICMP - Echo (ping) reply (src=#{@ip} dst=#{datagram.ip_src} ttl=#{datagram.ttl} data=#{datagram.message});"
-		@network.icmp_reply datagram
+		unless datagram.reply
+			puts "#{@name} => #{datagram.name_src} : ICMP - Echo (ping) reply (src=#{@ip} dst=#{datagram.ip_src} ttl=#{datagram.ttl} data=#{datagram.message});"
+			@network.icmp_reply next_datagram
+		end
 		return
 	end
 
