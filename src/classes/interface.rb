@@ -52,4 +52,9 @@ class Interface
 		puts "#{@name} rbox #{@name} : Received #{message};"
 	end
 
+	def send_message dst, msg
+		arp_request  dst.ip
+		icmp_request dst.ip, dst.name, msg, 8
+	end
+
 end
