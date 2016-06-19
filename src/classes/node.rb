@@ -13,6 +13,22 @@ class Node < Interface
 		@gateway = gateway
 	end
 
+	def icmp_reply datagram
+		if datagram.datagram.nil?
+			next_datagram = Datagram.new datagram.ip_dst, datagram.ip_src, datagram.name_dst, datagram.name_src, datagram.message
+			next_datagram.reply = true
+			icmp_echo datagram.get_message
+		else
+			next_datagram = Datagram.new datagram.datagram.ip_dst, datagram.datagram.ip_src, datagram.datagram.name_dst, datagram.datagram.name_src, datagram.datagram.message
+			next_datagram.reply = true
+			icmp_echo datagram.datagram.get_message
+		end
+		unless datagram.reply
+			puts "#{@name} => #{datagram.name_src} : ICMP - Echo (ping) reply (src=#{datagram.ip_dst} dst=#{datagram.ip_src} ttl=#{datagram.ttl} data=#{datagram.message});"
+			@network.icmp_reply next_datagram
+		end
+	end
+
 	def send_message dst, msg
 		dg = Datagram.new @ip, dst.ip, name, dst.name, msg
 		same_network = @network.address == dec_to_addr(addr_to_dec(dst.ip) & network_mask(dst.ip))
