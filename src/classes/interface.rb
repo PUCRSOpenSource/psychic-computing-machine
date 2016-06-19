@@ -35,15 +35,15 @@ class Interface
 		@network.icmp_request datagram
 	end
 
-	#def icmp_reply ip_dst, name_dst, message, ttl, ip_src, name_src, last
 	def icmp_reply datagram
 		next_datagram = nil
-		if datagram.datagram.nil?
+		if datagram.datagram.nil? || datagram.datagram.ip_dst == @ip
 			next_datagram = Datagram.new datagram.ip_dst, datagram.ip_src, datagram.name_dst, datagram.name_src, datagram.message
 			next_datagram.reply = true
 			icmp_echo datagram.get_message
 		else
-
+			router = @network.routers[@name]
+			router.route datagram
 		end
 		unless datagram.reply
 			puts "#{@name} => #{datagram.name_src} : ICMP - Echo (ping) reply (src=#{@ip} dst=#{datagram.ip_src} ttl=#{datagram.ttl} data=#{datagram.message});"
@@ -56,9 +56,10 @@ class Interface
 		puts "#{@name} rbox #{@name} : Received #{message};"
 	end
 
-	def send_message dst, msg
-		arp_request  dst.ip
-		icmp_request dst.ip, dst.name, msg, 8
+	def send_message datagram
+		next_datagram = Datagram.new @ip, datagram.datagram.ip_dst, @name, datagram.datagram.name_dst, nil, datagram.datagram
+		arp_request next_datagram.ip_dst
+		icmp_request next_datagram
 	end
 
 end

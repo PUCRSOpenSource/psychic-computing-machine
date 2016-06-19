@@ -61,7 +61,7 @@ File.open ARGV[0], "r" do |file|
 
 		when 3 #when reading routertable
 			name, net_address, netx_hop, port = line
-			route = RouterTableEntry.new(netx_hop, port)
+			route = RouterTableEntry.new(netx_hop, port.to_i)
 			routers[name].router_table[net_address] = route
 
 		end
