@@ -8,7 +8,7 @@ class Datagram
 	attr_reader :datagram
 	attr_reader :ttl
 
-	def initialize ip_src, ip_dst, name_src, name_dst, message=nil, datagram=nil
+	def initialize ip_src, ip_dst, name_src, name_dst, message, datagram=nil
 		@ip_src = ip_src
 		@ip_dst = ip_dst
 		@name_src = name_src
