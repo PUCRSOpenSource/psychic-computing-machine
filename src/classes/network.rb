@@ -6,7 +6,7 @@ class Network
 
 	attr_reader :address
 	attr_reader :interfaces
-	attr_reader :class
+	attr_accessor :routers
 
 	def initialize address
 		@address    = address

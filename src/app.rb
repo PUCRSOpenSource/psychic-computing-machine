@@ -72,6 +72,8 @@ src = ARGV[1]
 dst = ARGV[2]
 msg = ARGV[3]
 
+networks.each_value { |net| net.routers = routers }
+
 nm = NetworkManager.new all_nodes, networks
 nm.send_message(src, dst, msg)
 
