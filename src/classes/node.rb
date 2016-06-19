@@ -14,14 +14,14 @@ class Node < Interface
 	end
 
 	def icmp_reply datagram
-		if datagram.datagram.nil?
-			next_datagram = Datagram.new datagram.ip_dst, datagram.ip_src, datagram.name_dst, datagram.name_src, datagram.message
-			next_datagram.reply = true
-			icmp_echo datagram.get_message
-		else
+		if is_two_layer_datagram? datagram
 			next_datagram = Datagram.new datagram.datagram.ip_dst, datagram.datagram.ip_src, datagram.datagram.name_dst, datagram.datagram.name_src, datagram.datagram.message
 			next_datagram.reply = true
 			icmp_echo datagram.datagram.get_message
+		else
+			next_datagram = Datagram.new datagram.ip_dst, datagram.ip_src, datagram.name_dst, datagram.name_src, datagram.message
+			next_datagram.reply = true
+			icmp_echo datagram.get_message
 		end
 		unless datagram.reply
 			puts "#{@name} => #{datagram.name_src} : ICMP - Echo (ping) reply (src=#{datagram.ip_dst} dst=#{datagram.ip_src} ttl=#{datagram.ttl} data=#{datagram.message});"

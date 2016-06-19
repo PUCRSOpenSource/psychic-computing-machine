@@ -53,4 +53,10 @@ class Interface
 		icmp_request next_datagram
 	end
 
+	private
+
+	def is_two_layer_datagram? datagram
+		not datagram.datagram.nil?
+	end
+
 end
