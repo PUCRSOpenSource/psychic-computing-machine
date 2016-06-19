@@ -12,8 +12,10 @@ def add_to_network(interface, ip, networks)
 		net = Network.new net_address
 		net.interfaces.push interface
 		networks[net_address] = net
+		interface.network = net
 	else
 		networks[net_address].interfaces.push interface
+		interface.network = net
 	end
 end
 
