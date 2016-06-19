@@ -19,7 +19,6 @@ class Interface
 		puts "#{@name} box #{@name} : ARP - Who has #{ip_dst}? Tell #{@ip};"
 		reply = @network.arp_request ip_dst, @mac, @name
 		@arp_table[ip_dst] = reply
-		puts "ARP_TABLE: #{@arp_table}"
 	end
 
 	def arp_reply ip_dst, dst_mac, dst_name
@@ -33,16 +32,15 @@ class Interface
 
 	def icmp_request ip_dst, name_dst, message, ttl
 		puts "#{@name} => #{name_dst} : ICMP - Echo (ping) request (src=#{@ip} dst=#{ip_dst} ttl=#{ttl} data=#{message});"
-		@network.icmp_request ip_dst, name_dst, message, ttl, @ip
+		@network.icmp_request ip_dst, name_dst, message, ttl, @ip, @name
 	end
 
-	def icmp_reply ip_dst, name_dst, message, ttl, ip_src, last
+	def icmp_reply ip_dst, name_dst, message, ttl, ip_src, name_src, last
 		if ip_dst == @ip
 			icmp_echo message
 			unless last
-				puts "#{@name} => #{name_dst} : ICMP - Echo (ping) reply (src=#{@ip} dst=#{ip_src} ttl=#{ttl} data=#{message});"
-				@network.icmp_reply(ip_dst, ip_src, name_dst, message, ttl, true)
-
+				puts "#{@name} => #{name_src} : ICMP - Echo (ping) reply (src=#{@ip} dst=#{ip_src} ttl=#{ttl} data=#{message});"
+				@network.icmp_reply(ip_src, @ip, name_dst, message, ttl, @name, true)
 			end
 		end
 		return

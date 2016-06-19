@@ -22,19 +22,19 @@ class Network
 		return mac
 	end
 
-	def icmp_request ip_dst, name_dst, message, ttl, ip_src
+	def icmp_request ip_dst, name_dst, message, ttl, ip_src, name_src
 		interfaces.each do |interface|
-			interface.icmp_reply(ip_dst, name_dst, message, ttl, ip_src, false)
+			interface.icmp_reply(ip_dst, name_dst, message, ttl, ip_src, name_src, false)
 		end
 	end
 
-	def icmp_reply ip_dst, ip_src, name_dst, message, ttl, last
+	def icmp_reply ip_dst, ip_src, name_dst, message, ttl, name_src, last
 		interfaces.each do |interface|
-			interface.icmp_reply ip_dst, ip_src, name_dst, message, ttl, last
+			interface.icmp_reply ip_dst, ip_src, message, message, ttl, name_src, last
 		end
 	end
 
-	def seach_by_ip ip_address
+	def search_by_ip ip_address
 		interfaces.each do |interface|
 			return interface if interface.ip == ip_address
 		end
