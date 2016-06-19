@@ -15,7 +15,7 @@ def add_to_network(interface, ip, networks)
 		interface.network = net
 	else
 		networks[net_address].interfaces.push interface
-		interface.network = net
+		interface.network = networks[net_address]
 	end
 end
 
