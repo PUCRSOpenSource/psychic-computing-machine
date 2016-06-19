@@ -6,7 +6,7 @@ class Datagram
 	attr_reader :name_dst
 	attr_reader :message
 	attr_reader :datagram
-	attr_reader :ttl
+	attr_accessor :ttl
 	attr_accessor :reply
 
 	def initialize ip_src, ip_dst, name_src, name_dst, msg, datagram=nil

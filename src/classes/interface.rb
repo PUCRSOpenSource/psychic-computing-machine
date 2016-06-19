@@ -38,7 +38,11 @@ class Interface
 		if datagram.reply
 			puts "#{@name} => #{datagram.name_dst} : ICMP - Echo (ping) reply (src=#{datagram.ip_src} dst=#{datagram.ip_dst} ttl=#{datagram.ttl} data=#{datagram.get_message});"
 		else
-			puts "#{@name} => #{datagram.name_dst} : ICMP - Echo (ping) request (src=#{datagram.ip_src} dst=#{datagram.ip_dst} ttl=#{datagram.ttl} data=#{datagram.get_message});"
+			if is_two_layer_datagram? datagram
+				puts "#{@name} => #{datagram.name_dst} : ICMP - Echo (ping) request (src=#{datagram.datagram.ip_src} dst=#{datagram.datagram.ip_dst} ttl=#{datagram.ttl} data=#{datagram.datagram.get_message});"
+			else
+				puts "#{@name} => #{datagram.name_dst} : ICMP - Echo (ping) request (src=#{datagram.ip_src} dst=#{datagram.ip_dst} ttl=#{datagram.ttl} data=#{datagram.get_message});"
+			end
 		end
 		@network.icmp_request datagram
 	end
@@ -55,6 +59,7 @@ class Interface
 
 	def send_message datagram
 		next_datagram = Datagram.new datagram.ip_src, datagram.datagram.ip_dst, @name, datagram.datagram.name_dst, nil, datagram.datagram
+		next_datagram.ttl = datagram.ttl - 1
 		next_datagram.reply = true if datagram.reply
 		arp_request next_datagram.ip_dst
 		icmp_request next_datagram
