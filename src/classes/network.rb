@@ -22,9 +22,9 @@ class Network
 		return mac
 	end
 
-	def icmp_request ip_dst, name_dst, message, ttl, ip_src, name_src
+	def icmp_request datagram
 		interfaces.each do |interface|
-			interface.icmp_reply(ip_dst, name_dst, message, ttl, ip_src, name_src, false)
+			interface.icmp_reply datagram
 		end
 	end
 

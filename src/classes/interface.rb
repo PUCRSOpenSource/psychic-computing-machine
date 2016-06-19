@@ -30,17 +30,24 @@ class Interface
 		return
 	end
 
-	def icmp_request ip_dst, name_dst, message, ttl
-		puts "#{@name} => #{name_dst} : ICMP - Echo (ping) request (src=#{@ip} dst=#{ip_dst} ttl=#{ttl} data=#{message});"
-		@network.icmp_request ip_dst, name_dst, message, ttl, @ip, @name
+	#def icmp_request ip_dst, name_dst, message, ttl
+	def icmp_request datagram
+		puts "#{@name} => #{datagram.name_dst} : ICMP - Echo (ping) request (src=#{@ip} dst=#{datagram.ip_dst} ttl=#{datagram.ttl} data=#{datagram.message});"
+		@network.icmp_request datagram
 	end
 
-	def icmp_reply ip_dst, name_dst, message, ttl, ip_src, name_src, last
-		if ip_dst == @ip
-			icmp_echo message
+	#def icmp_reply ip_dst, name_dst, message, ttl, ip_src, name_src, last
+	def icmp_reply datagram
+		next_datagram = nil
+		if datagram.ip_dst == @ip
+			if datagram.datagram.nil?
+				icmp_echo datagram.message
+			else
+				
+			end
 			unless last
-				puts "#{@name} => #{name_src} : ICMP - Echo (ping) reply (src=#{@ip} dst=#{ip_src} ttl=#{ttl} data=#{message});"
-				@network.icmp_reply(ip_src, @ip, name_dst, message, ttl, @name, true)
+				puts "#{@name} => #{datagram.name_src} : ICMP - Echo (ping) reply (src=#{@ip} dst=#{datagram.ip_src} ttl=#{datagram.ttl} data=#{datagram.message});"
+				@network.icmp_reply datagram
 			end
 		end
 		return
