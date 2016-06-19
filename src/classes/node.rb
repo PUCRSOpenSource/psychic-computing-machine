@@ -17,6 +17,7 @@ class Node < Interface
 		dg = Datagram.new @ip, dst.ip, name, dst.name, msg
 		same_network = @network.address == dec_to_addr(addr_to_dec(dst.ip) & network_mask(dst.ip))
 		dst = if same_network then dst else @network.search_by_ip(gateway) end
+		dg = Datagram.new @ip, dst.ip, name, dst.name, nil, dg unless same_network
 		arp_request dst.ip
 		icmp_request dg
 	end
