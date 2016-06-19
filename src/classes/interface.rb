@@ -38,17 +38,15 @@ class Interface
 	#def icmp_reply ip_dst, name_dst, message, ttl, ip_src, name_src, last
 	def icmp_reply datagram
 		next_datagram = nil
-		if datagram.ip_dst == @ip
-			if datagram.datagram.nil?
-				icmp_echo datagram.get_message
-			else
+		if datagram.datagram.nil?
+			next_datagram = Datagram.new datagram.dst, datagram.src, datagram.name_dst, datagram.name_src, datagram.message
+			next_datagram.reply = true
+			icmp_echo datagram.get_message
+		else
 
-			end
-			#unless last
-				#puts "#{@name} => #{datagram.name_src} : ICMP - Echo (ping) reply (src=#{@ip} dst=#{datagram.ip_src} ttl=#{datagram.ttl} data=#{datagram.message});"
-				#@network.icmp_reply datagram
-			#end
 		end
+		puts "#{@name} => #{datagram.name_src} : ICMP - Echo (ping) reply (src=#{@ip} dst=#{datagram.ip_src} ttl=#{datagram.ttl} data=#{datagram.message});"
+		@network.icmp_reply datagram
 		return
 	end
 

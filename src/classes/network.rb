@@ -24,7 +24,7 @@ class Network
 
 	def icmp_request datagram
 		interfaces.each do |interface|
-			interface.icmp_reply datagram
+			interface.icmp_reply datagram if interface.ip == datagram.ip_dst
 		end
 	end
 
