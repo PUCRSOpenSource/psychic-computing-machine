@@ -9,6 +9,7 @@ class NetworkManager
 		x = @nodes[src]
 		y = @nodes[dst]
 		x.arp_request  y.ip
+		x.icmp_request y.ip, y.name, msg, 8
 	end
 
 end

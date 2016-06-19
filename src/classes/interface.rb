@@ -37,8 +37,12 @@ class Interface
 	end
 
 	def icmp_reply ip_dst, name_dst, message, ttl
-		puts "#{@name} => #{name_dst} : ICMP - Echo (ping) reply (src=#{@ip} dst=#{ip_dst} ttl=#{ttl} data=#{message});"
-		@network.icmp_reply ip_dst, name_dst, messate, ttl
+		if ip_dst == @ip
+			icmp_echo message
+			puts "#{@name} => #{name_dst} : ICMP - Echo (ping) reply (src=#{@ip} dst=#{ip_dst} ttl=#{ttl} data=#{message});"
+			@network.icmp_reply ip_dst, name_dst, message, ttl
+		end
+		return
 	end
 
 	def icmp_echo message
