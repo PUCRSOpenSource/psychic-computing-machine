@@ -33,4 +33,11 @@ class Network
 			interface.icmp_reply ip_dst, ip_src, name_dst, message, ttl, last
 		end
 	end
+
+	def seach_by_ip ip_address
+		interfaces.each do |interface|
+			return interface if interface.ip == ip_address
+		end
+		return nil
+	end
 end
