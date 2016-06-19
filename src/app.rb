@@ -5,6 +5,8 @@ Dir['classes/*.rb'].each do |file|
 	require_relative file
 end
 
+puts 'wordwraparcs=true,hscale=2.0;'
+
 def add_to_network(interface, ip, networks)
 	include Ip
 	net_address = dec_to_addr(addr_to_dec(ip) & network_mask(ip))
