@@ -28,9 +28,9 @@ class Network
 		end
 	end
 
-	def icmp_reply ip_dst, ip_src, name_dst, message, ttl, name_src, last
+	def icmp_reply datagram
 		interfaces.each do |interface|
-			interface.icmp_reply ip_dst, ip_src, message, message, ttl, name_src, last
+			interface.icmp_reply if datagram.ip == interface.ip
 		end
 	end
 
