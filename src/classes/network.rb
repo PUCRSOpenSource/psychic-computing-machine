@@ -17,7 +17,7 @@ class Network
 		mac = ''
 		interfaces.each do |interface|
 			reply = interface.arp_reply ip_dst, mac_src, name_src
-			mac = reply until reply.nil?
+			mac = reply unless reply.nil?
 		end
 		return mac
 	end
