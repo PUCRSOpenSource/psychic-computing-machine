@@ -33,14 +33,17 @@ class Interface
 
 	def icmp_request ip_dst, name_dst, message, ttl
 		puts "#{@name} => #{name_dst} : ICMP - Echo (ping) request (src=#{@ip} dst=#{ip_dst} ttl=#{ttl} data=#{message});"
-		@network.icmp_request ip_dst, name_dst, message, ttl
+		@network.icmp_request ip_dst, name_dst, message, ttl, @ip
 	end
 
-	def icmp_reply ip_dst, name_dst, message, ttl
+	def icmp_reply ip_dst, name_dst, message, ttl, ip_src, last
 		if ip_dst == @ip
 			icmp_echo message
-			puts "#{@name} => #{name_dst} : ICMP - Echo (ping) reply (src=#{@ip} dst=#{ip_dst} ttl=#{ttl} data=#{message});"
-			@network.icmp_reply ip_dst, name_dst, message, ttl
+			unless last
+				puts "#{@name} => #{name_dst} : ICMP - Echo (ping) reply (src=#{@ip} dst=#{ip_src} ttl=#{ttl} data=#{message});"
+				@network.icmp_reply(ip_dst, ip_src, name_dst, message, ttl, true)
+
+			end
 		end
 		return
 	end

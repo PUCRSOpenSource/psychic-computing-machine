@@ -22,11 +22,15 @@ class Network
 		return mac
 	end
 
-	def icmp_request ip_dst, name_dst, message, ttl
-		puts "#{ip_dst} #{name_dst} #{message} #{ttl}"
+	def icmp_request ip_dst, name_dst, message, ttl, ip_src
 		interfaces.each do |interface|
-			interface.icmp_reply ip_dst, name_dst, message, ttl
+			interface.icmp_reply(ip_dst, name_dst, message, ttl, ip_src, false)
 		end
 	end
 
+	def icmp_reply ip_dst, ip_src, name_dst, message, ttl, last
+		interfaces.each do |interface|
+			interface.icmp_reply ip_dst, ip_src, name_dst, message, ttl, last
+		end
+	end
 end
