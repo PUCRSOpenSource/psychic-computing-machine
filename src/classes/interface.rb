@@ -49,6 +49,7 @@ class Interface
 
 	def send_message datagram
 		next_datagram = Datagram.new datagram.ip_src, datagram.datagram.ip_dst, @name, datagram.datagram.name_dst, nil, datagram.datagram
+		next_datagram.reply = true if datagram.reply
 		arp_request next_datagram.ip_dst
 		icmp_request next_datagram
 	end
