@@ -6,7 +6,9 @@ class NetworkManager
 	end
 
 	def send_message src, dst, msg
-		
+		x = @nodes[src]
+		y = @nodes[dst]
+		x.arp_request  y.ip
 	end
 
 end

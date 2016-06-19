@@ -19,10 +19,11 @@ class Interface
 		puts "#{@name} box #{@name} : ARP - Who has #{ip_dst}? Tell #{@ip};"
 		reply = @network.arp_request ip_dst, @mac, @name
 		@arp_table[ip_dst] = reply
+		puts "ARP_TABLE: #{@arp_table}"
 	end
 		
 	def arp_reply ip_dst, dst_mac, dst_name
-		@arp_table[ip_dst] = src_mac if @arp_table[ip_dst].nil?
+		@arp_table[ip_dst] = dst_mac if @arp_table[ip_dst].nil?
 		if ip_dst == @ip
 			puts "#{@name} => #{dst_name} : ARP - #{@ip} is at #{@mac};"
 			return @mac
