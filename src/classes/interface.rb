@@ -58,9 +58,28 @@ class Interface
 	end
 
 	def send_message datagram
-		next_datagram = Datagram.new datagram.ip_src, datagram.datagram.ip_dst, @name, datagram.datagram.name_dst, nil, datagram.datagram
-		next_datagram.ttl = datagram.ttl - 1
-		next_datagram.reply = true if datagram.reply
+		ip_dst = datagram.datagram.ip_dst
+		name_dst = datagram.datagram.name_dst
+		next_network = dec_to_addr(addr_to_dec(datagram.ip_dst) & network_mask(datagram.ip_dst))
+		same_network = @network.address == next_network
+		if same_network
+			next_datagram = Datagram.new datagram.ip_src, ip_dst, @name, name_dst, nil, datagram.datagram
+			next_datagram.ttl = datagram.ttl - 1
+			next_datagram.reply = true if datagram.reply
+		else
+			next_network = dec_to_addr(addr_to_dec(datagram.datagram.ip_dst) & network_mask(datagram.datagram.ip_dst))
+			#binding.pry
+			router_table = @network.routers[@name].router_table
+			next_hop = router_table[next_network]
+			next_hop = router_table['0.0.0.0'] if next_hop.nil?
+			next_hop = next_hop.next_hop
+
+			ip_dst = next_hop unless next_hop == '0.0.0.0'
+			name_dst = @network.search_by_ip(ip_dst).name
+			next_datagram = Datagram.new datagram.ip_src, ip_dst, @name, name_dst, nil, datagram.datagram
+			next_datagram.ttl = datagram.ttl - 1
+			next_datagram.reply = true if datagram.reply
+		end
 		arp_request next_datagram.ip_dst
 		icmp_request next_datagram
 	end
@@ -69,6 +88,10 @@ class Interface
 
 	def is_two_layer_datagram? datagram
 		not datagram.datagram.nil?
+	end
+
+	def get_next_hop
+		
 	end
 
 end
