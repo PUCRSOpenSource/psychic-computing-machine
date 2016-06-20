@@ -1,0 +1,19 @@
+\section{Implementação}
+\label{sec:imp}
+
+
+O simulador foi desenvolvido na linguagem \emph{Ruby}. Sua estrutura
+consistem em um conjunto de interfaces que podem ser nodos ou
+pertencerem a roteadores, e essas mesmas pertencem a uma rede que são
+ligadas através dos roteadores.
+
+A interface possui todas as funções principais que são especializadas
+quando se trata de um nodo, mantendo o mesmo nome para que todas as
+interfaces sejam tratadas da mesma maneira, independente de ser um nodo
+ou pertencer a um roteador. Existem as funções de \emph{ARP} e de
+\emph{ICMP} para executar os protocolos, por exemplo \verb!arp_request!
+e \verb!icmp_reply!.
+
+Além disso existe uma função para enviar mensagem, que é a que chama as
+outras, tanto para um interface de roteador ou um nodo.
+

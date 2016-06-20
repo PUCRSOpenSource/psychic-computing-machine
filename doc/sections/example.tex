@@ -1,0 +1,21 @@
+\section{Exemplo}
+
+Segue um exemplo executado utilizando a mesma topologia usada na
+seção~\ref{sec:imp}. Ela possui 4 nodos e 1 roteador.
+
+Segue o resultado:
+
+\begin{lstlisting}
+ruby app.rb topologia.txt n1 n3 hello
+
+n1 box n1 : ARP - Who has 192.168.0.1? Tell 192.168.0.2;
+r1 => n1 : ARP - 192.168.0.1 is at 00:00:00:00:00:05;
+n1 => r1 : ICMP - Echo (ping) request (src=192.168.0.2 dst=192.168.1.2 ttl=8 data=hello);
+r1 box r1 : ARP - Who has 192.168.1.2? Tell 192.168.1.1;
+n3 => r1 : ARP - 192.168.1.2 is at 00:00:00:00:00:03;
+r1 => n3 : ICMP - Echo (ping) request (src=192.168.0.2 dst=192.168.1.2 ttl=7 data=hello);
+n3 rbox n3 : Received hello;
+n3 => r1 : ICMP - Echo (ping) reply (src=192.168.1.2 dst=192.168.0.2 ttl=8 data=hello);
+r1 => n1 : ICMP - Echo (ping) reply (src=192.168.1.2 dst=192.168.0.2 ttl=7 data=hello);
+n1 rbox n1 : Received hello;
+\end{lstlisting}
